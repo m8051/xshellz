@@ -1,2 +1,2 @@
 # xshellz
-This is a dummy IRC Bot
+Dummy IRC Bot to renew shell account from xshellz
