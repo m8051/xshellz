@@ -1,0 +1,9 @@
+# YAML file with the xShellz settings
+---
+xshellz:
+  server: irc.freenode.net
+  port: 6667
+  username: crawler
+  channel: "#xshellz"
+  shell_expiration: 335
+  shell_updated: 0
