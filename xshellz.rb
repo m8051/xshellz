@@ -40,9 +40,9 @@ class XshellZ
   def send_msg
     @socket.puts "PRIVMSG #{@channel} :#{@message}"
     while line = @socket.gets
-      puts line.chop
+      #puts line.chop
       if line.match(/End of \/NAMES list/)
-        puts "Closing client socket"
+        #puts "Closing client socket"
         @socket.puts "QUIT Disconnecting ..."
       end
     end
@@ -54,33 +54,35 @@ class XshellZ
 
 end
 
-# -------------------------------------
-# MAIN CODE
-# -------------------------------------
+if __FILE__ == $0
+  # -------------------------------------
+  # MAIN CODE
+  # -------------------------------------
 
-# Reading settings from YML
-settings = YAML.load_file('account.yml')
-server = settings['xshellz']['server']
-port = settings['xshellz']['port']
-username = settings['xshellz']['username']
+  # Reading settings from YML
+  settings = YAML.load_file('account.yml')
+  server = settings['xshellz']['server']
+  port = settings['xshellz']['port']
+  username = settings['xshellz']['username']
 
 
-# Running BotXshellZ
-client = XshellZ.new(server, port, username)
+  # Running BotXshellZ
+  client = XshellZ.new(server, port, username)
 
-trap("INT"){ client.disconnect }
+  trap("INT"){ client.disconnect }
 
-# Setting the channel writter attribute
-client.channel = "#tjt"
+  # Setting the channel writter attribute
+  client.channel = "#tjt"
 
-# Joinning the channel
-client.join_channel
+  # Joinning the channel
+  client.join_channel
 
-# Setting the message writter attribute
-client.message = "!keep #{username}"
+  # Setting the message writter attribute
+  client.message = "!keep #{username}"
 
-# Sending the message to the channel
-client.send_msg
+  # Sending the message to the channel
+  client.send_msg
 
-# Closing the socket nicely
-client.disconnect
+  # Closing the socket nicely
+  client.disconnect
+end

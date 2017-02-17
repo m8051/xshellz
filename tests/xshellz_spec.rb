@@ -20,10 +20,10 @@
 	
 # 	it "has a channel represented as a string" do
 #       expect(@client.channel).to eq ("#tjt")
-#     end
+#   end
 	
 # 	it "has a message represented as a string" do
 # 	  expect(@client.message).to start_with("!keep")
-#     end
+#   end
 
 # end

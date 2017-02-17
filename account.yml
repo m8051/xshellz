@@ -4,5 +4,4 @@ xshellz:
   server: irc.freenode.com
   port: 6667
   username: TorBot
-  shell_expiration: 335
-  shell_updated: 0
+  renew: 336
