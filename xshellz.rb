@@ -26,7 +26,7 @@ class XshellZ
   end
 
   def channel=(channel)
-  	@channel = channel
+    @channel = channel
   end
 
   def join_channel
