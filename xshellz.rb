@@ -2,15 +2,18 @@ require 'yaml'
 require 'socket'
 
 class XshellZ
-	
+
+  attr_reader :server, :port, :username
+  attr_accessor :channel, :message
+  
   def initialize(server, port, username)
-    # instance variables
+    # Instance variables
     @server = server
     @port = port
     @username = username
     @socket
       
-    # let's call the connect method
+    # let's call the connect method by the time the object is instantiate 
     connect
   end
 
@@ -18,24 +21,31 @@ class XshellZ
     @socket = TCPSocket.open(@server, @port)
     #print("addr: ", @socket.addr.join(":"), "\n")
     #print("peer: ", @socket.peeraddr.join(":"), "\n")
-    @socket.puts "USER  #{@username} 0 * #{@username}"
-    @socket.puts "NICK #{@username}"
+    @socket.puts "NICK  #{@username}"
+    @socket.puts "USER  #{@username} 0 * :#{@username}"
   end
 
-  def join_channel(channel)
-    @socket.puts "JOIN #{channel}"
+  def channel=(channel)
+  	@channel = channel
   end
 
-  def send_msg(channel, message)
+  def join_channel
+    @socket.puts "JOIN #{@channel}"
+  end
+
+  def message=(message)
+  	@message = message
+  end
+
+  def send_msg
+    @socket.puts "PRIVMSG #{@channel} :#{@message}"
     while line = @socket.gets
       puts line.chop
-      @socket.puts "PRIVMSG #{channel} :#{message}"
       if line.match(/End of \/NAMES list/)
         puts "Closing client socket"
         @socket.puts "QUIT Disconnecting ..."
       end
     end
-    @socket.close
   end
 
   def disconnect
@@ -53,12 +63,24 @@ settings = YAML.load_file('account.yml')
 server = settings['xshellz']['server']
 port = settings['xshellz']['port']
 username = settings['xshellz']['username']
-channel = settings['xshellz']['channel']
 
 
 # Running BotXshellZ
 client = XshellZ.new(server, port, username)
+
 trap("INT"){ client.disconnect }
-client.join_channel(channel)
-message = "!keep #{username}"
-client.send_msg(channel, message)
+
+# Setting the channel writter attribute
+client.channel = "#tjt"
+
+# Joinning the channel
+client.join_channel
+
+# Setting the message writter attribute
+client.message = "!keep #{username}"
+
+# Sending the message to the channel
+client.send_msg
+
+# Closing the socket nicely
+client.disconnect
