@@ -1,9 +1,8 @@
 # YAML file with the xShellz settings
 ---
 xshellz:
-  server: irc.freenode.net
+  server: irc.freenode.com
   port: 6667
-  username: crawler
-  channel: "#xshellz"
+  username: TorBot
   shell_expiration: 335
   shell_updated: 0
